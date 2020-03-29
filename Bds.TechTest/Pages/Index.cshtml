@@ -1,0 +1,21 @@
+﻿@page
+@model Bds.TechTest.Pages.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<form>
+    <p>
+        <select asp-for="SelectedEngine" asp-items="Model.Engines">
+            <option value="">All</option>
+        </select>
+        <input type="text" asp-for="SearchString" />
+        <input type="submit" value="Search" />
+    </p>
+</form>
+
+@foreach (var result in @Model.Results)
+{
+    @Html.Raw(result);
+}
+
