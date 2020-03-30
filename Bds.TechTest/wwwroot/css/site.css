@@ -71,6 +71,7 @@ h2 a {
     overflow: hidden;
     text-overflow: ellipsis;
     align-items: center;
+    text-decoration: none;
 }
 
 ol {
