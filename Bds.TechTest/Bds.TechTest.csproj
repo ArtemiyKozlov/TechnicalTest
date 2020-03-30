@@ -16,6 +16,7 @@
     <Folder Include="wwwroot\css\" />
     <Folder Include="Builders\" />
     <Folder Include="wwwroot\images\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.23" />

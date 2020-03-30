@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bds.TechTest.Builders;
+using Bds.TechTest.Extensions;
 using Bds.TechTest.Models;
 using HtmlAgilityPack;
 using Microsoft.AspNetCore.Mvc;
@@ -50,17 +51,13 @@ namespace Bds.TechTest.Pages
                     : _engines.Where(e => e.Name == SelectedEngine).ToList();
 
                 var results = await Task.WhenAll(activeEngines.Select(GetResults));
-                foreach (var item in from res in results
-                                     from item in res
-                                     where item.Title != null
-                                     select item)
-                {
-                    SearchResults.Add(item);
-                }
+                SearchResults = results.Length == 1
+                    ? new HashSet<SearchResult>(results[0])
+                    : new HashSet<SearchResult>(results.MergeOneByOne().Where(r => r.Title != null));
             }
         }
 
-        private async Task<SearchResult[]> GetResults(EngineOption engine)
+        private async Task<IEnumerable<SearchResult>> GetResults(EngineOption engine)
         {
             var client = _httpClientFactory.CreateClient(engine.Name);
             var response = await client.GetAsync(string.Format(engine.SearchPath, SearchString, PageNumber * engine.PageMultiplier));
@@ -69,7 +66,7 @@ namespace Bds.TechTest.Pages
             var results = doc.DocumentNode.SelectNodes(engine.ResultPath);
             var builder = new ResultBuilder(engine);
 
-            return results?.Select(builder.Create).ToArray() ?? new SearchResult[] { };
+            return results?.Select(builder.Create) ?? new SearchResult[] { };
         }
     }
 }
