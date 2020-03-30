@@ -3,3 +3,5 @@
 bin
 obj
 *.user
+.DS_Store
+Bds.TechTest/.DS_Store
