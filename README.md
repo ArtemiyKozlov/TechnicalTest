@@ -13,3 +13,5 @@ Generally speaking, modern search engines are extremely complex, they track your
 I haven't come up with a solution for passing the user's identity to the engine without using API.
 
 Due to lack of time, there are quite a few tests. Views with styles should be improved.
+
+Error handling - TODO.
