@@ -14,6 +14,7 @@
     <Folder Include="Pages\Shared\" />
     <Folder Include="wwwroot\" />
     <Folder Include="wwwroot\css\" />
+    <Folder Include="Builders\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.23" />

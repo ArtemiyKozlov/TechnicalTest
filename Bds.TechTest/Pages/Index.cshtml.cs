@@ -16,14 +16,17 @@ namespace Bds.TechTest.Pages
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly List<EngineOption> _engines;
 
-        public IndexModel(IHttpClientFactory httpClientFactory, IOptionsMonitor<AppConfig> optionsMonitor)
+        public IndexModel(IHttpClientFactory httpClientFactory, IOptions<AppConfig> optionsMonitor)
         {
             _httpClientFactory = httpClientFactory;
-            _engines = optionsMonitor.CurrentValue.Engines;
+            _engines = optionsMonitor.Value.Engines;
         }
 
         [BindProperty(SupportsGet = true)]
         public string SearchString { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public int PageNumber { get; set; }
 
         public SelectList Engines { get; set; }
 
@@ -36,9 +39,15 @@ namespace Bds.TechTest.Pages
         {
             Results.Clear();
 
+            Engines = new SelectList(_engines.Select(e => e.Name));
+
             if (!string.IsNullOrEmpty(SearchString))
             {
-                var results = await Task.WhenAll(_engines.Select(GetResults));
+                var activeEngines =
+                    string.IsNullOrEmpty(SelectedEngine)
+                    ? _engines
+                    : _engines.Where(e => e.Name == SelectedEngine).ToList();
+                var results = await Task.WhenAll(activeEngines.Select(GetResults));
                 foreach (var res in results)
                 {
                     Results.AddRange(res);
@@ -49,12 +58,11 @@ namespace Bds.TechTest.Pages
 
         private async Task<string[]> GetResults(EngineOption engine)
         {
-            var page = 0;
             var client = _httpClientFactory.CreateClient(engine.Name);
-            var response = await client.GetAsync(string.Format(engine.SearchPath, SearchString, page * engine.PageMultiplier));
+            var response = await client.GetAsync(string.Format(engine.SearchPath, SearchString, PageNumber * engine.PageMultiplier));
             var doc = new HtmlDocument();
             doc.LoadHtml(await response.Content.ReadAsStringAsync());
-            var results = doc.DocumentNode.SelectNodes(engine.ResultXPath);
+            var results = doc.DocumentNode.SelectNodes(engine.ResultPath);
 
             return results?.Select(r => r?.OuterHtml).ToArray() ?? new string[] { };
         }

@@ -9,6 +9,7 @@ namespace Bds.TechTest.Models
         public string UrlBase { get; set; }
         public string SearchPath { get; set; }
         public int PageMultiplier { get; set; }
-        public string ResultXPath { get; set; }
+        public string ResultPath { get; set; }
+        public ParsingOption ParsingOption { get; set; }
     }
 }
