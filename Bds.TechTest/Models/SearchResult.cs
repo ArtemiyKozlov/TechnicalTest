@@ -7,6 +7,7 @@ namespace Bds.TechTest.Models
         public string Url { get; set; }
         public string UrlView { get; set; }
         public string Paragraph { get; set; }
+        public string EngineName { get; set; }
 
         public override bool Equals(object obj)
         {

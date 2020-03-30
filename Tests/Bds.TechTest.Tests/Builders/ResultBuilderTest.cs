@@ -49,11 +49,11 @@ namespace Bds.TechTest.Tests.Builders
 
 
         [TestCaseSource(typeof(ResultBuilderTest), "TestCases")]
-        public void Test1(EngineOption engine)
+        public void ShouldBuild(EngineOption engine)
         {
             var resultNodes = GetResultNodes(engine);
 
-            var builder = new ResultBuilder(engine.ParsingOption);
+            var builder = new ResultBuilder(engine);
             var result = resultNodes.Select(builder.Create).Distinct().ToArray();
 
             Assert.AreEqual(SEARCH_RESULTS_COUNT, result.Length);

@@ -1,2 +1,106 @@
 ﻿body {
+    font: 13px/normal 'Roboto',Helvetica,Sans-Serif;
+}
+header {
+    padding: 24px 0 0 0;
+    background-color: #fff;
+    border-bottom: 1px solid #ececec;
+}
+
+div.search-box:hover {
+    box-shadow: 0 0 0 1px rgba(0,0,0,.1), 0 2px 4px 1px rgba(0,0,0,.18);
+    border-left: 1px solid transparent;
+    border-right: none;
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+}
+form {
+    padding-left: 100px;
+    display: flex;
+    align-items: center;
+}
+select {
+    height: 44px;
+}
+div.search-box {
+    border-radius: 6px 6px 0 0;
+    font: 18px/normal 'Roboto',Helvetica,Sans-Serif;
+    border: 1px solid #ececec;
+    display: inline-flex;
+}
+input.search-input {
+    width: 398px;
+    padding-right: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+    margin: 1px 0 1px 1px;
+    padding: 0 10px 0 19px;
+    border: 0;
+    max-height: none;
+    outline: none;
+    height: 44px;
+    vertical-align: top;
+    border-radius: 6px;
+}
+
+input.search-submit {
+    background-image: url(/magnify.png);
+    background-repeat: no-repeat;
+    background-color: #fff;
+    border-color: #fff;
+    text-indent: -99em;
+    cursor: pointer;
+    height: 24px;
+    width: 24px;
+    margin: 3px 3px 3px -3px;
+    align-self: center;
+}
+
+.result-container {
+    clear: both;
+    min-height: 316px;
+    padding: 41px 0 20px 100px;
+    line-height: 1.2em;
+}
+h2 {
+    display: flex;
+}
+h2 a {
+    display: flex;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    align-items: center;
+}
+
+ol {
+    display: inline-block;
+    width: 648px;
+    color: #666;
+    border: 0;
+    border-collapse: collapse;
+    border-spacing: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+}
+
+ol li {
+    padding: 12px 20px 0;
+    margin: 0 0 2px;
+    background-color: #fff;
+    display: list-item;
+    list-style-type: none;
+}
+
+cite {
+    font-style: normal;
+    color: #006621;
+    font-size: 16px;
+    line-height: 24px;
+    white-space: nowrap;
+    word-wrap: break-word;
 }

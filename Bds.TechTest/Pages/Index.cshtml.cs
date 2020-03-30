@@ -31,14 +31,14 @@ namespace Bds.TechTest.Pages
 
         public SelectList Engines { get; set; }
 
-        public List<SearchResult> Results { get; private set; } = new List<SearchResult>();
+        public HashSet<SearchResult> SearchResults { get; private set; } = new HashSet<SearchResult>();
 
         [BindProperty(SupportsGet = true)]
         public string SelectedEngine { get; set; }
 
         public async Task OnGet()
         {
-            Results.Clear();
+            SearchResults.Clear();
 
             Engines = new SelectList(_engines.Select(e => e.Name));
 
@@ -50,11 +50,13 @@ namespace Bds.TechTest.Pages
                     : _engines.Where(e => e.Name == SelectedEngine).ToList();
 
                 var results = await Task.WhenAll(activeEngines.Select(GetResults));
-                foreach (var res in results)
+                foreach (var item in from res in results
+                                     from item in res
+                                     where item.Title != null
+                                     select item)
                 {
-                    Results.AddRange(res);
+                    SearchResults.Add(item);
                 }
-
             }
         }
 
@@ -65,7 +67,7 @@ namespace Bds.TechTest.Pages
             var doc = new HtmlDocument();
             doc.LoadHtml(await response.Content.ReadAsStringAsync());
             var results = doc.DocumentNode.SelectNodes(engine.ResultPath);
-            var builder = new ResultBuilder(engine.ParsingOption);
+            var builder = new ResultBuilder(engine);
 
             return results?.Select(builder.Create).ToArray() ?? new SearchResult[] { };
         }

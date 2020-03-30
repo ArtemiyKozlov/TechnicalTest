@@ -4,28 +4,35 @@
     ViewData["Title"] = "Index";
 }
 
-<form>
-    <p>
-        <select asp-for="SelectedEngine" asp-items="Model.Engines">
-            <option value="">All</option>
-        </select>
-        <input type="text" asp-for="SearchString" />
-        <input type="submit" value="Search" />
-    </p>
-</form>
+<header>
+    <form>
+            <select asp-for="SelectedEngine" asp-items="Model.Engines">
+                <option value="">All</option>
+            </select>
+            <div class="search-box" role="search">
+                <input type="text" class="search-input" asp-for="SearchString" />
+                <input type="submit" class="search-submit" value="Search" />
+            </div>
+    </form>
+</header>
+
 
 <main>
     <div class="result-container">
-        @foreach (var item in Model.Results)
-        {
-            <div class="result-item">
-                <h2>
-                    <a href="@item.Url">@Html.Raw(item.Title)</a>
-                </h2>
-                <span>@Html.Raw(item.UrlView)</span>
-                <p>@Html.Raw(item.Paragraph)</p>
-            </div>
-        }
+        <ol>
+            @foreach (var item in Model.SearchResults)
+            {
+                <li class="result-item">
+                    <h2>
+                        <img class="engine-logo" src="~/images/@(item.EngineName).png" alt="engine-logo" />
+                        <a href="@item.Url">@Html.Raw(item.Title)</a>
+                    </h2>
+                    <cite>@Html.Raw(item.UrlView)</cite>
+                    <p>@Html.Raw(item.Paragraph)</p>
+                </li>
+            }
+        </ol>
+        
     </div>
 </main> 
 

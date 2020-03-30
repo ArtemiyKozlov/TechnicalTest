@@ -15,8 +15,34 @@
     <Folder Include="wwwroot\" />
     <Folder Include="wwwroot\css\" />
     <Folder Include="Builders\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.23" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\images\Bing.png" />
+    <Content Remove="wwwroot\images\Yahoo.png" />
+    <Content Remove="wwwroot\images\YahooOrigin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\images\BingOrigin.png">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+    <None Include="wwwroot\images\YahooOrigin.png">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="wwwroot\images\oie_9sm9Lue4tXRA.png">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\images\oie_G3N7fr90KPhr.png">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 </Project>
