@@ -16,3 +16,6 @@ Due to lack of time, there are quite a few tests. Views with styles should be im
 
 Error handling - TODO.
 Pagination - backend - done : UI - TODO
+
+The main downside of the solution - it is an integration nightmare.
+CSS and HTML in responses might change at any minute.
