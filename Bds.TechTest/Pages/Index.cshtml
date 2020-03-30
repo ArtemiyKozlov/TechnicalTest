@@ -14,8 +14,18 @@
     </p>
 </form>
 
-@foreach (var result in @Model.Results)
-{
-    @Html.Raw(result);
-}
+<main>
+    <div class="result-container">
+        @foreach (var item in Model.Results)
+        {
+            <div class="result-item">
+                <h2>
+                    <a href="@item.Url">@Html.Raw(item.Title)</a>
+                </h2>
+                <span>@Html.Raw(item.UrlView)</span>
+                <p>@Html.Raw(item.Paragraph)</p>
+            </div>
+        }
+    </div>
+</main> 
 

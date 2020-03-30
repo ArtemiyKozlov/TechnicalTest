@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Bds.TechTest.Builders;
 using Bds.TechTest.Models;
 using HtmlAgilityPack;
 using Microsoft.Extensions.Configuration;
@@ -50,7 +52,18 @@ namespace Bds.TechTest.Tests.Builders
         public void Test1(EngineOption engine)
         {
             var resultNodes = GetResultNodes(engine);
-            Assert.AreEqual(SEARCH_RESULTS_COUNT, resultNodes.Count);
+
+            var builder = new ResultBuilder(engine.ParsingOption);
+            var result = resultNodes.Select(builder.Create).Distinct().ToArray();
+
+            Assert.AreEqual(SEARCH_RESULTS_COUNT, result.Length);
+            foreach (var item in result)
+            {
+                Assert.IsNotNull(item.Title);
+                Assert.IsNotNull(item.Paragraph);
+                Assert.IsNotNull(item.Url);
+                Assert.IsNotNull(item.UrlView);
+            }
         }
 
 

@@ -25,7 +25,6 @@ namespace Bds.TechTest
         {
             services.AddRazorPages();
             
-
             services.AddOptions();
             services.Configure<AppConfig>(Configuration);
 

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Bds.TechTest.Builders;
 using Bds.TechTest.Models;
 using HtmlAgilityPack;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +31,7 @@ namespace Bds.TechTest.Pages
 
         public SelectList Engines { get; set; }
 
-        public List<string> Results { get; private set; } = new List<string>();
+        public List<SearchResult> Results { get; private set; } = new List<SearchResult>();
 
         [BindProperty(SupportsGet = true)]
         public string SelectedEngine { get; set; }
@@ -47,6 +48,7 @@ namespace Bds.TechTest.Pages
                     string.IsNullOrEmpty(SelectedEngine)
                     ? _engines
                     : _engines.Where(e => e.Name == SelectedEngine).ToList();
+
                 var results = await Task.WhenAll(activeEngines.Select(GetResults));
                 foreach (var res in results)
                 {
@@ -56,15 +58,16 @@ namespace Bds.TechTest.Pages
             }
         }
 
-        private async Task<string[]> GetResults(EngineOption engine)
+        private async Task<SearchResult[]> GetResults(EngineOption engine)
         {
             var client = _httpClientFactory.CreateClient(engine.Name);
             var response = await client.GetAsync(string.Format(engine.SearchPath, SearchString, PageNumber * engine.PageMultiplier));
             var doc = new HtmlDocument();
             doc.LoadHtml(await response.Content.ReadAsStringAsync());
             var results = doc.DocumentNode.SelectNodes(engine.ResultPath);
+            var builder = new ResultBuilder(engine.ParsingOption);
 
-            return results?.Select(r => r?.OuterHtml).ToArray() ?? new string[] { };
+            return results?.Select(builder.Create).ToArray() ?? new SearchResult[] { };
         }
     }
 }
