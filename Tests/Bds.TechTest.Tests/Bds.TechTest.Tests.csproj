@@ -29,4 +29,12 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Bds.TechTest\Bds.TechTest.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="TestData\Bing.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\Yahoo.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

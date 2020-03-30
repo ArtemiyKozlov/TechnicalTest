@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using Bds.TechTest.Models;
+using HtmlAgilityPack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -13,6 +15,8 @@ namespace Bds.TechTest.Tests.Builders
     public class ResultBuilderTest
     {
         private static readonly List<EngineOption> _engines;
+
+        private int SEARCH_RESULTS_COUNT = 10;
 
         static ResultBuilderTest()
         {
@@ -45,7 +49,19 @@ namespace Bds.TechTest.Tests.Builders
         [TestCaseSource(typeof(ResultBuilderTest), "TestCases")]
         public void Test1(EngineOption engine)
         {
-            Console.WriteLine(engine.Name);
+            var resultNodes = GetResultNodes(engine);
+            Assert.AreEqual(SEARCH_RESULTS_COUNT, resultNodes.Count);
+        }
+
+
+        private HtmlNodeCollection GetResultNodes(EngineOption engine)
+        {
+            var path = $"./TestData/{engine.Name}.htm";
+
+            var doc = new HtmlDocument();
+            doc.Load(path);
+
+            return doc.DocumentNode.SelectNodes(engine.ResultPath);
         }
     }
 }
