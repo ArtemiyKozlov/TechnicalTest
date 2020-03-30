@@ -15,3 +15,4 @@ I haven't come up with a solution for passing the user's identity to the engine 
 Due to lack of time, there are quite a few tests. Views with styles should be improved.
 
 Error handling - TODO.
+Pagination - backend - done : UI - TODO
