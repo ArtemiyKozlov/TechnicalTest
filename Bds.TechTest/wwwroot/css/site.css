@@ -48,6 +48,7 @@ input.search-submit {
     background-repeat: no-repeat;
     background-color: #fff;
     border-color: #fff;
+    border-style: none;
     text-indent: -99em;
     cursor: pointer;
     height: 24px;
