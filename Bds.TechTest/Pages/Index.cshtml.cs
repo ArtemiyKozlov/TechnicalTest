@@ -8,7 +8,6 @@ using Bds.TechTest.Models;
 using HtmlAgilityPack;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
 
 namespace Bds.TechTest.Pages
@@ -18,11 +17,14 @@ namespace Bds.TechTest.Pages
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly List<EngineOption> _engines;
 
-        public IndexModel(IHttpClientFactory httpClientFactory, IOptions<AppConfig> optionsMonitor)
+        public IndexModel(IHttpClientFactory httpClientFactory, IOptions<AppConfig> engineOptions)
         {
             _httpClientFactory = httpClientFactory;
-            _engines = optionsMonitor.Value.Engines;
+            _engines = engineOptions.Value.Engines;
         }
+
+        [BindProperty]
+        public List<EngineOption> Engines { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public string SearchString { get; set; }
@@ -30,31 +32,26 @@ namespace Bds.TechTest.Pages
         [BindProperty(SupportsGet = true)]
         public int PageNumber { get; set; }
 
-        public SelectList Engines { get; set; }
-
         public HashSet<SearchResult> SearchResults { get; private set; } = new HashSet<SearchResult>();
 
-        [BindProperty(SupportsGet = true)]
-        public string SelectedEngine { get; set; }
-
-        public async Task OnGet()
+        public async Task OnPost()
         {
             SearchResults.Clear();
-
-            Engines = new SelectList(_engines.Select(e => e.Name));
-
             if (!string.IsNullOrEmpty(SearchString))
             {
-                var activeEngines =
-                    string.IsNullOrEmpty(SelectedEngine)
-                    ? _engines
-                    : _engines.Where(e => e.Name == SelectedEngine).ToList();
-
-                var results = await Task.WhenAll(activeEngines.Select(GetResults));
+                var results = await Task.WhenAll(Engines
+                    .Where(e => e.Selected)
+                    .Select(e => _engines.First(o => o.Name == e.Name))
+                    .Select(GetResults));
                 SearchResults = results.Length == 1
                     ? new HashSet<SearchResult>(results[0])
                     : new HashSet<SearchResult>(results.MergeOneByOne().Where(r => r.Title != null));
             }
+        }
+
+        public void OnGet()
+        {
+            Engines = _engines;
         }
 
         private async Task<IEnumerable<SearchResult>> GetResults(EngineOption engine)
