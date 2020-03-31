@@ -11,6 +11,6 @@ namespace Bds.TechTest.Models
         public int PageMultiplier { get; set; }
         public string ResultPath { get; set; }
         public ParsingOption ParsingOption { get; set; }
-        public bool Selected { get; set; }
+        public bool IsSelected { get; set; }
     }
 }

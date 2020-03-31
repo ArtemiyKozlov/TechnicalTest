@@ -40,7 +40,7 @@ namespace Bds.TechTest.Pages
             if (!string.IsNullOrEmpty(SearchString))
             {
                 var results = await Task.WhenAll(Engines
-                    .Where(e => e.Selected)
+                    .Where(e => e.IsSelected)
                     .Select(e => _engines.First(o => o.Name == e.Name))
                     .Select(GetResults));
                 SearchResults = results.Length == 1
