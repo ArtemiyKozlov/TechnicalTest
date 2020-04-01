@@ -43,9 +43,7 @@ namespace Bds.TechTest.Pages
                     .Where(e => e.IsSelected)
                     .Select(e => _engines.First(o => o.Name == e.Name))
                     .Select(GetResults));
-                SearchResults = results.Length == 1
-                    ? new HashSet<SearchResult>(results[0])
-                    : new HashSet<SearchResult>(results.MergeOneByOne().Where(r => r.Title != null));
+                SearchResults = new HashSet<SearchResult>(results.MergeOneByOne().Where(r => r.Title != null));
             }
         }
 
@@ -63,7 +61,7 @@ namespace Bds.TechTest.Pages
             var results = doc.DocumentNode.SelectNodes(engine.ResultPath);
             var builder = new ResultBuilder(engine);
 
-            return results?.Select(builder.Create) ?? new SearchResult[] { };
+            return results?.Select(builder.Create) ?? new List<SearchResult>();
         }
     }
 }

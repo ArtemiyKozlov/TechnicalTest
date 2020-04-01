@@ -7,6 +7,14 @@ header {
     border-bottom: 1px solid #ececec;
 }
 
+.checkbox input[type="checkbox"] {
+    opacity: 0;
+}
+
+.checkbox input[type="checkbox"]:not(:checked) + label img {
+    opacity: 0.5;
+}
+
 div.search-box:hover {
     box-shadow: 0 0 0 1px rgba(0,0,0,.1), 0 2px 4px 1px rgba(0,0,0,.18);
     border-left: 1px solid transparent;
